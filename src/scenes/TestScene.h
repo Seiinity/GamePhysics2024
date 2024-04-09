@@ -1,10 +1,31 @@
 #pragma once
 
-#include <glm/glm.hpp>
 #include "core/Simple2DScene.h"
+#include <glm/glm.hpp>
+#include <vector>
+#include <objects/Circle.h>
+#include <objects/Wall.h>
 
-class TestScene : public Simple2DScene {
+class TestScene : public Simple2DScene
+{
+private:
+
+    glm::vec2 gravity;
+
+    std::vector<Circle*> circles;
+    std::vector<Wall*> walls;
+
+    float circleSpawnRadius;
+    bool useRandomRadius;
+
+    float spawnForceX;
+    float spawnForceY;
+
+    void UpdateCircleOnCircleCollisions(Circle* circle);
+    void UpdateCircleOnWallCollisions(Circle* circle);
+
 public:
+
     TestScene();
     ~TestScene();
 
@@ -15,8 +36,4 @@ public:
     virtual void DrawGUI() override;
 
     virtual const char* GetName() override { return "Test Scene"; }
-
-private:
-    glm::vec2 circlePosition;
-    float circleRadius;
 };

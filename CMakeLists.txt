@@ -5,12 +5,22 @@ project(${NAME})
 
 # Include all files inside the scenes folder in the build.
 file(GLOB_RECURSE SCENE_SOURCES CONFIGURE_DEPENDS "src/scenes/**.cpp" "src/scenes/**.h")
+file(GLOB_RECURSE OBJECTS_SOURCES CONFIGURE_DEPENDS "src/objects/**.cpp" "src/objects/**.h")
+
 # Create a filter in Visual Studio for all files in the scenes folder.
 source_group("scenes" FILES ${SCENE_SOURCES})
+source_group("objects" FILES ${OBJECTS_SOURCES})
+
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
+set(SDL2_PATH "SDL2-2.0.18\\x86_64-w64-mingw32")
+
+find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIR})
 
 # All files to be build have to be added here.
-add_executable(${NAME} src/main.cpp ${SCENE_SOURCES})
+add_executable(${NAME} src/main.cpp ${SCENE_SOURCES} ${OBJECTS_SOURCES})
 
+target_link_libraries(${NAME} ${SDL2_LIBRARY})
 
 target_include_directories(${NAME} PRIVATE src)
 
